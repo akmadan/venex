@@ -1,11 +1,9 @@
-  
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 
 class AuthForm extends StatefulWidget {
   @override
@@ -25,7 +23,6 @@ class _AuthFormState extends State<AuthForm> {
     if (isValid) {
       _formkey.currentState.save();
       _submitAuthForm(username, email, password, isLoginpage);
-      print(_formkey.currentState);
     }
   }
 
@@ -51,7 +48,9 @@ class _AuthFormState extends State<AuthForm> {
           'username': username,
           'email': email,
           'password': password,
-          'chatroom': null,
+          'uid': authresult.user.uid,
+          'likes':'0',
+          'dpurl':''
         });
       }
     } on PlatformException catch (err) {
@@ -91,9 +90,9 @@ class _AuthFormState extends State<AuthForm> {
                     },
                     child: Text(
                       isLoginpage
-                          ? 'New to FineLine ? Create account'
+                          ? 'New to YourConverse ? Create account'
                           : 'Already have an account ? Login',
-                      style: GoogleFonts.mada(color: Colors.white),
+                      style: GoogleFonts.rubik(color: Colors.black),
                     ),
                   ),
                 )),
@@ -111,8 +110,8 @@ class _AuthFormState extends State<AuthForm> {
                         },
                         child: Text(
                           isLoginpage ? "Login" : 'Sign Up',
-                          style: GoogleFonts.mada(
-                              color: Colors.white, fontSize: 17.0),
+                          style: GoogleFonts.rubik(
+                              color: Colors.black, fontSize: 17.0),
                         ),
                       ),
                     ),
@@ -186,7 +185,13 @@ class _AuthFormState extends State<AuthForm> {
                   ],
                 ),
               ),
-              
+              Padding(padding: EdgeInsets.only(top: 10.0)),
+              Center(
+                child: Container(
+                    child: Text('YourConverse',
+                        style: GoogleFonts.rubik(
+                            fontSize: 24.0, fontWeight: FontWeight.bold))),
+              )
             ])));
   }
 }
