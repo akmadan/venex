@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "49646810401",
+    "firebase_url": "https://yourconverse-cf3f9.firebaseio.com",
+    "project_id": "yourconverse-cf3f9",
+    "storage_bucket": "yourconverse-cf3f9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:49646810401:android:841955e75c8604b7077a60",
+        "android_client_info": {
+          "package_name": "com.creative.yourconverse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "49646810401-vrc9bnbujl0rjj8jk6utbp1bftfofgio.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7J2I9rfpQrsFrycgkjzU4O6cwXf85QEs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "49646810401-vrc9bnbujl0rjj8jk6utbp1bftfofgio.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
