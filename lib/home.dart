@@ -23,6 +23,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         actions: [
           IconButton(
@@ -42,11 +43,11 @@ class _HomeState extends State<Home> {
         color: Colors.black,
         backgroundColor: Theme.of(context).primaryColor,
         items: [
-          TabItem(icon: Icons.home, title: 'Home'),
+          TabItem(icon: Icons.dashboard, title: 'Dashboard'),
           TabItem(icon: Icons.add, title: 'Add'),
           TabItem(icon: Icons.people, title: 'Profile'),
         ],
-        initialActiveIndex: 2,
+        initialActiveIndex: 0,
         onTap: _onTappedBar,
       ),
 

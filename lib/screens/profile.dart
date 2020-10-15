@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:yourconverse/widgets/postprofile.dart';
 
 import 'editprofile.dart';
 
@@ -35,7 +36,10 @@ class _ProfileState extends State<Profile> {
                     children: [
                       Padding(padding: EdgeInsets.only(left: 20.0)),
                       CircleAvatar(
-                        backgroundImage: AssetImage('assets/logo.jpg'),
+                        backgroundColor: Colors.white,
+                        backgroundImage: usersnapshot.data['dp'] == ""
+                            ? AssetImage('assets/logo1.jpg')
+                            : NetworkImage(usersnapshot.data['dp']),
                         radius: 50,
                       ),
                       Container(
@@ -85,13 +89,14 @@ class _ProfileState extends State<Profile> {
                           MaterialPageRoute(
                               builder: (context) => EditProfile(
                                     uid: widget.uid,
+                                    dp: usersnapshot.data['dp'],
                                   )));
                     },
                     child: Center(
                       child: Text(
                         'Edit Profile',
-                        style: GoogleFonts.rubik(fontSize: 16.0,
-                        color: Colors.black),
+                        style: GoogleFonts.rubik(
+                            fontSize: 16.0, color: Colors.black),
                       ),
                     ),
                   ),
@@ -102,7 +107,7 @@ class _ProfileState extends State<Profile> {
                 Container(
                     padding: EdgeInsets.all(5.0),
                     //color: Colors.red,
-                    height: MediaQuery.of(context).size.height,
+                    height: MediaQuery.of(context).size.height / 2,
                     child: StreamBuilder(
                       stream: Firestore.instance
                           .collection('userposts')
@@ -119,22 +124,34 @@ class _ProfileState extends State<Profile> {
                               itemCount: postdata.length,
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisSpacing: 5.0,
-                                    mainAxisSpacing: 5.0,
+                                      crossAxisSpacing: 5.0,
+                                      mainAxisSpacing: 5.0,
                                       crossAxisCount: 3),
                               itemBuilder: (context, index) {
-                                return GridTile(
-                                    child: Container(
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image: NetworkImage(
-                                            postdata[index]['url'],
-                                          ),
-                                          fit: BoxFit.cover),
-                                      borderRadius:
-                                          BorderRadius.circular(10.0)),
-                                  //child: Image.network(postdata[index]['url']),
-                                ));
+                                return InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ProfilePost(
+                                                  url: postdata[index]['url'],
+                                                  username: postdata[index]
+                                                      ['username'],
+                                                )));
+                                  },
+                                  child: GridTile(
+                                      child: Container(
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: NetworkImage(
+                                              postdata[index]['url'],
+                                            ),
+                                            fit: BoxFit.cover),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    //child: Image.network(postdata[index]['url']),
+                                  )),
+                                );
                               });
                         }
                       },

@@ -49,8 +49,8 @@ class _AuthFormState extends State<AuthForm> {
           'email': email,
           'password': password,
           'uid': authresult.user.uid,
-          'likes':'0',
-          'dpurl':''
+          'likes': '0',
+          'dp': ''
         });
       }
     } on PlatformException catch (err) {

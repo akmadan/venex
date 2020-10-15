@@ -22,6 +22,11 @@ class _AddPostState extends State<AddPost> {
     setState(() {
       image = picked;
     });
+    DocumentSnapshot variable =
+        await Firestore.instance.collection('users').document(widget.uid).get();
+    String username = variable.data['username'];
+    String uid = variable.data['uid'];
+    String dp = variable.data['dp'];
     final ref = FirebaseStorage.instance
         .ref()
         .child('posts')
@@ -36,14 +41,27 @@ class _AddPostState extends State<AddPost> {
         .document(date.toString())
         .setData({
       'url': url,
+      'username': username,
+      'time': date,
+      'likes': '0',
+      'dp': dp
+    });
+    await Firestore.instance
+        .collection('allposts')
+        .document(date.toString())
+        .setData({
+      'url': url,
+      'username': username,
+      'time': date.toString(),
+      'likes': '0',
+      'dp': dp,
+      'uid': uid,
     });
   }
 
-  
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
       child: Center(
         child: RaisedButton(onPressed: () {
           uploadpost();
