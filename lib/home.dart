@@ -1,3 +1,4 @@
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -27,7 +28,7 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         actions: [
           IconButton(
-              icon: Icon(Icons.time_to_leave),
+              icon: Icon(Icons.menu),
               onPressed: () {
                 FirebaseAuth.instance.signOut();
                 Navigator.pushReplacement(
@@ -37,21 +38,30 @@ class _HomeState extends State<Home> {
         title: Text('YourConverse',
             style: GoogleFonts.rubik(fontWeight: FontWeight.bold)),
       ),
-      bottomNavigationBar: ConvexAppBar(
-        height: 50,
-        activeColor: Colors.black,
-        color: Colors.black,
+      bottomNavigationBar: BottomNavyBar(
         backgroundColor: Theme.of(context).primaryColor,
+        currentIndex: _selectedIndex,
+        onItemSelected: (index) => setState(() {
+          _selectedIndex = index;
+          _pageController.animateToPage(index,
+              duration: Duration(milliseconds: 300), curve: Curves.ease);
+        }),
         items: [
-          TabItem(icon: Icons.dashboard, title: 'Dashboard'),
-          TabItem(icon: Icons.add, title: 'Add'),
-          TabItem(icon: Icons.people, title: 'Profile'),
+          BottomNavyBarItem(
+            icon: Icon(Icons.dashboard),
+            title: Text('Dashboard'),
+            activeColor: Colors.white,
+          ),
+          BottomNavyBarItem(
+              icon: Icon(Icons.add),
+              title: Text('Add'),
+              activeColor: Colors.white),
+          BottomNavyBarItem(
+              icon: Icon(Icons.person),
+              title: Text('Profile'),
+              activeColor: Colors.white),
         ],
-        initialActiveIndex: 0,
-        onTap: _onTappedBar,
       ),
-
-      //
       body: PageView(
         controller: _pageController,
         children: <Widget>[

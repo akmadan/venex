@@ -50,7 +50,9 @@ class _AuthFormState extends State<AuthForm> {
           'password': password,
           'uid': authresult.user.uid,
           'likes': '0',
-          'dp': ''
+          'dp': '',
+          'bio': 'Tell Here Why You Love Converse',
+          'posts': 0
         });
       }
     } on PlatformException catch (err) {
@@ -92,7 +94,7 @@ class _AuthFormState extends State<AuthForm> {
                       isLoginpage
                           ? 'New to YourConverse ? Create account'
                           : 'Already have an account ? Login',
-                      style: GoogleFonts.rubik(color: Colors.black),
+                      style: GoogleFonts.rubik(color: Colors.white),
                     ),
                   ),
                 )),

@@ -11,7 +11,10 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: Firestore.instance.collection('allposts').snapshots(),
+      stream: Firestore.instance
+          .collection('allposts')
+          .orderBy('order', descending: true)
+          .snapshots(),
       builder: (context, allpostsnapshot) {
         if (allpostsnapshot.connectionState == ConnectionState.waiting) {
           return Center(
@@ -28,6 +31,8 @@ class _DashboardState extends State<Dashboard> {
                 dp: postdocs[index]['dp'],
                 likes: postdocs[index]['likes'],
                 docname: postdocs[index]['time'],
+                description: postdocs[index]['description'],
+                postuid: postdocs[index]['uid'],
               );
             },
           );

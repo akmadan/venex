@@ -24,10 +24,10 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
             brightness: Brightness.dark,
             primaryColor: Color(
-              0xffffff00,
+              0xffcf03fc,
             ),
             buttonTheme: ButtonThemeData(
-                buttonColor: Color(0xffffff00),
+                buttonColor: Color(0xffcf03fc),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0)))),
         home: StreamBuilder(

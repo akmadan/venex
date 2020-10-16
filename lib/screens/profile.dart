@@ -15,6 +15,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  var postcount = 0;
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -28,49 +29,65 @@ class _ProfileState extends State<Profile> {
           return SingleChildScrollView(
             child: Column(
               children: [
+                Padding(padding: EdgeInsets.only(top: 16.0)),
                 Container(
-                  height: 150,
+                  height: 130,
                   width: MediaQuery.of(context).size.width,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Padding(padding: EdgeInsets.only(left: 20.0)),
-                      CircleAvatar(
-                        backgroundColor: Colors.white,
-                        backgroundImage: usersnapshot.data['dp'] == ""
-                            ? AssetImage('assets/logo1.jpg')
-                            : NetworkImage(usersnapshot.data['dp']),
-                        radius: 50,
+                      
+                      Container(
+                        padding: EdgeInsets.only(left: 10.0),
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: Center(
+                          child: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            backgroundImage: usersnapshot.data['dp'] == ""
+                                ? AssetImage('assets/logo1.jpg')
+                                : NetworkImage(usersnapshot.data['dp']),
+                            radius: 60,
+                          ),
+                        ),
                       ),
                       Container(
+                        width: MediaQuery.of(context).size.width * 2 / 3,
                         padding: EdgeInsets.all(20.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(
-                              usersnapshot.data['username'],
-                              style: GoogleFonts.rubik(
-                                  fontSize: 20.0, fontWeight: FontWeight.bold),
-                            ),
-                            Row(
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Text(
-                                  'Likes  789 ',
-                                  style: GoogleFonts.rubik(fontSize: 20.0),
+                                  'Likes',
+                                  style: GoogleFonts.rubik(
+                                      fontSize: 22.0,
+                                      fontWeight: FontWeight.bold),
                                 ),
-                                Icon(Icons.favorite_rounded)
+                                Text(
+                                  usersnapshot.data['likes'],
+                                  style: GoogleFonts.rubik(fontSize: 22.0),
+                                ),
                               ],
                             ),
-                            Container(
-                              height: 50,
-                              width: 240,
-                              child: Expanded(
-                                child: Text(
-                                  'I love Converse because they are cool ',
-                                  style: GoogleFonts.rubik(fontSize: 20.0),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(
+                                  'Posts',
+                                  style: GoogleFonts.rubik(
+                                      fontSize: 22.0,
+                                      fontWeight: FontWeight.bold),
                                 ),
-                              ),
+                                Text(
+                                  usersnapshot.data['posts'].toString(),
+                                  style: GoogleFonts.rubik(
+                                    fontSize: 22.0,
+                                  ),
+                                )
+                              ],
                             ),
                           ],
                         ),
@@ -78,6 +95,37 @@ class _ProfileState extends State<Profile> {
                     ],
                   ),
                 ),
+                Padding(padding: EdgeInsets.only(top: 10.0)),
+                Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(left: 16),
+                      width: MediaQuery.of(context).size.width,
+                      child: Expanded(
+                        child: Text(
+                          usersnapshot.data['username'],
+                          style: GoogleFonts.rubik(
+                              fontSize: 20.0, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(left: 16),
+                      width: MediaQuery.of(context).size.width,
+                      child: Expanded(
+                        child: Text(
+                          usersnapshot.data['bio'],
+                          style: GoogleFonts.rubik(fontSize: 18.0),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(padding: EdgeInsets.only(top: 16.0)),
                 Container(
                   padding: EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
                   height: 40,
@@ -96,7 +144,7 @@ class _ProfileState extends State<Profile> {
                       child: Text(
                         'Edit Profile',
                         style: GoogleFonts.rubik(
-                            fontSize: 16.0, color: Colors.black),
+                            fontSize: 16.0, color: Colors.white),
                       ),
                     ),
                   ),
@@ -120,6 +168,7 @@ class _ProfileState extends State<Profile> {
                           return Center(child: CircularProgressIndicator());
                         } else {
                           final postdata = postsnapshot.data.documents;
+
                           return GridView.builder(
                               itemCount: postdata.length,
                               gridDelegate:
@@ -137,6 +186,13 @@ class _ProfileState extends State<Profile> {
                                                   url: postdata[index]['url'],
                                                   username: postdata[index]
                                                       ['username'],
+                                                  dp: postdata[index]['dp'],
+                                                  likes: postdata[index]
+                                                      ['likes'],
+                                                  docname: postdata[index]
+                                                      ['time'],
+                                                  description: postdata[index]
+                                                      ['description'],
                                                 )));
                                   },
                                   child: GridTile(
@@ -149,7 +205,6 @@ class _ProfileState extends State<Profile> {
                                             fit: BoxFit.cover),
                                         borderRadius:
                                             BorderRadius.circular(10.0)),
-                                    //child: Image.network(postdata[index]['url']),
                                   )),
                                 );
                               });

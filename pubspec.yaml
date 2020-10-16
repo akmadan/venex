@@ -36,6 +36,7 @@ dependencies:
 
   convex_bottom_bar: ^2.5.1+1
   provider: ^4.3.2+2
+  bottom_navy_bar: ^3.0.0
 
 
   # The following adds the Cupertino Icons font to your application.
