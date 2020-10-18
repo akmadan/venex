@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:yourconverse/screens/otherprofile.dart';
 
 class PostBubble extends StatefulWidget {
   final String url;
@@ -30,10 +31,12 @@ class PostBubble extends StatefulWidget {
 
 class _PostBubbleState extends State<PostBubble> {
   var isliked = false;
+  var issaved = false;
 
   @override
   void initState() {
     checkliked();
+    checksaved();
     super.initState();
   }
 
@@ -55,6 +58,28 @@ class _PostBubbleState extends State<PostBubble> {
     } else {
       setState(() {
         isliked = false;
+      });
+    }
+  }
+
+  //**************************************************** */
+
+  checksaved() async {
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    String id = user.uid;
+    var liked = await Firestore.instance
+        .collection('saved')
+        .document(widget.docname)
+        .collection('users')
+        .document(id)
+        .get();
+    if (liked.exists) {
+      setState(() {
+        issaved = true;
+      });
+    } else {
+      setState(() {
+        issaved = false;
       });
     }
   }
@@ -161,6 +186,53 @@ class _PostBubbleState extends State<PostBubble> {
   }
 
   //************************************************** */
+
+  savepost() async {
+    setState(() {
+      issaved = true;
+    });
+
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    String id = user.uid;
+    await Firestore.instance
+        .collection('userposts')
+        .document(id)
+        .collection('savedposts')
+        .document(widget.docname)
+        .setData({
+      'docname': widget.docname,
+    });
+    await Firestore.instance
+        .collection('saved')
+        .document(widget.docname)
+        .collection('users')
+        .document(id)
+        .setData({'saved': 'yes'});
+  }
+
+  //************************************************** */
+
+  unsavepost() async {
+    setState(() {
+      issaved = false;
+    });
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    String id = user.uid;
+    await Firestore.instance
+        .collection('userposts')
+        .document(id)
+        .collection('savedposts')
+        .document(widget.docname)
+        .delete();
+    await Firestore.instance
+        .collection('saved')
+        .document(widget.docname)
+        .collection('users')
+        .document(id)
+        .delete();
+  }
+
+  //************************************************** */
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -176,17 +248,44 @@ class _PostBubbleState extends State<PostBubble> {
                   topRight: Radius.circular(10.0)),
             ),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                    padding: EdgeInsets.all(9.0),
-                    child: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      backgroundImage: widget.dp == ""
-                          ? AssetImage('assets/logo1.jpg')
-                          : NetworkImage(widget.dp),
-                      radius: 18,
-                    )),
-                Text(widget.username)
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => OtherProfile(
+                                  uid: widget.postuid,
+                                  username: widget.username,
+                                )));
+                  },
+                  child: Row(
+                    children: [
+                      Container(
+                          padding: EdgeInsets.all(9.0),
+                          child: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            backgroundImage: widget.dp == ""
+                                ? AssetImage('assets/logo1.jpg')
+                                : NetworkImage(widget.dp),
+                            radius: 17,
+                          )),
+                      Text(widget.username)
+                    ],
+                  ),
+                ),
+                issaved
+                    ? IconButton(
+                        icon: Icon(Icons.bookmark),
+                        onPressed: () {
+                          unsavepost();
+                        })
+                    : IconButton(
+                        icon: Icon(Icons.bookmark_border),
+                        onPressed: () {
+                          savepost();
+                        })
               ],
             ),
           ),
@@ -202,7 +301,9 @@ class _PostBubbleState extends State<PostBubble> {
             ),
           ),
           Container(
-            padding: EdgeInsets.only(bottom: 10.0),
+            padding: widget.description == ''
+                ? EdgeInsets.only(bottom: 0.0)
+                : EdgeInsets.only(bottom: 10.0),
             decoration: BoxDecoration(
               color: Colors.grey[900],
               borderRadius: BorderRadius.only(
@@ -212,33 +313,38 @@ class _PostBubbleState extends State<PostBubble> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    isliked
-                        ? IconButton(
-                            icon: Icon(
-                              Icons.favorite,
-                              color: Colors.yellow,
-                            ),
-                            onPressed: () {
-                              decreaselike();
-                            })
-                        : IconButton(
-                            icon: Icon(
-                              Icons.favorite,
-                            ),
-                            onPressed: () {
-                              increaselike();
-                            }),
-                    Text(widget.likes + '  Likes', style: GoogleFonts.rubik())
-                  ],
-                ),
                 Container(
-                    padding: EdgeInsets.only(left: 10.0),
-                    child: Text(
-                      widget.description,
-                      style: GoogleFonts.rubik(),
-                    )),
+                  height: 42,
+                  child: Row(
+                    children: [
+                      isliked
+                          ? IconButton(
+                              icon: Icon(
+                                Icons.favorite,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              onPressed: () {
+                                decreaselike();
+                              })
+                          : IconButton(
+                              icon: Icon(
+                                Icons.favorite,
+                              ),
+                              onPressed: () {
+                                increaselike();
+                              }),
+                      Text(widget.likes + '  Likes', style: GoogleFonts.rubik())
+                    ],
+                  ),
+                ),
+                widget.description == ''
+                    ? Container()
+                    : Container(
+                        padding: EdgeInsets.only(left: 10.0),
+                        child: Text(
+                          widget.description,
+                          style: GoogleFonts.rubik(),
+                        )),
               ],
             ),
           ),

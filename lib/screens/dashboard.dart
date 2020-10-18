@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:yourconverse/widgets/postbubble.dart';
+import 'package:yourconverse/bubbles/postbubble.dart';
 
 class Dashboard extends StatefulWidget {
   @override

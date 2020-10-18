@@ -51,8 +51,9 @@ class _AuthFormState extends State<AuthForm> {
           'uid': authresult.user.uid,
           'likes': '0',
           'dp': '',
-          'bio': 'Tell Here Why You Love Converse',
-          'posts': 0
+          'bio': 'Describe Your Page in a Line',
+          'posts': 0,
+          'contact':''
         });
       }
     } on PlatformException catch (err) {

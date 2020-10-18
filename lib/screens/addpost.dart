@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
+
 class AddPost extends StatefulWidget {
   final String uid;
 
@@ -95,14 +96,17 @@ class _AddPostState extends State<AddPost> {
             children: [
               Container(
                 padding: EdgeInsets.all(10.0),
-                height: 350,
+                //height: 350,
                 width: MediaQuery.of(context).size.width,
                 child: image != null
                     ? Image.file(
                         image,
                         fit: BoxFit.cover,
                       )
-                    : Image.asset('assets/logo.jpg', fit: BoxFit.cover),
+                    : Container(
+                        height: 300,
+                        child:
+                            Image.asset('assets/shoe.png', fit: BoxFit.cover)),
               ),
               Container(
                 height: 70,

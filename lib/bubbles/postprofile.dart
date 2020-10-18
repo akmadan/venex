@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ProfilePost extends StatefulWidget {
   final String url;
@@ -25,6 +26,10 @@ class ProfilePost extends StatefulWidget {
 }
 
 class _ProfilePostState extends State<ProfilePost> {
+
+  //********************************************** */
+
+
   deletepost() async {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
     DocumentSnapshot noofposts =
@@ -46,6 +51,8 @@ class _ProfilePostState extends State<ProfilePost> {
         .updateData({'posts': noofpost - 1});
     Navigator.pop(context);
   }
+
+  //********************************************** */
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +112,9 @@ class _ProfilePostState extends State<ProfilePost> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.only(bottom: 10.0),
+                   padding: widget.description == ''
+                ? EdgeInsets.only(bottom: 0.0)
+                : EdgeInsets.only(bottom: 10.0),
                 decoration: BoxDecoration(
                   color: Colors.grey[900],
                   borderRadius: BorderRadius.only(
@@ -122,9 +131,14 @@ class _ProfilePostState extends State<ProfilePost> {
                             child: Text(widget.likes + '  Likes'))
                       ],
                     ),
-                    Container(
+                    widget.description == ''
+                    ? Container()
+                    : Container(
                         padding: EdgeInsets.only(left: 10.0),
-                        child: Text(widget.description)),
+                        child: Text(
+                          widget.description,
+                          style: GoogleFonts.rubik(),
+                        )),
                   ],
                 ),
               ),
@@ -133,3 +147,5 @@ class _ProfilePostState extends State<ProfilePost> {
         ));
   }
 }
+
+//********************************************** */

@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:yourconverse/widgets/postprofile.dart';
+import 'package:yourconverse/screens/savedposts.dart';
+import 'package:yourconverse/bubbles/postprofile.dart';
 
 import 'editprofile.dart';
 
@@ -36,7 +37,6 @@ class _ProfileState extends State<Profile> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      
                       Container(
                         padding: EdgeInsets.only(left: 10.0),
                         width: MediaQuery.of(context).size.width / 3,
@@ -125,6 +125,31 @@ class _ProfileState extends State<Profile> {
                     ),
                   ],
                 ),
+                Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(left: 16),
+                      width: MediaQuery.of(context).size.width,
+                      child: Expanded(
+                        child: Row(
+                          children: [
+                            Text(
+                              'Contact - ',
+                              style: GoogleFonts.rubik(fontSize: 18.0),
+                            ),
+                            Text(
+                              usersnapshot.data['contact'],
+                              style: GoogleFonts.rubik(
+                                  fontSize: 18.0,
+                                  fontStyle: FontStyle.italic,
+                                  color: Theme.of(context).primaryColor),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
                 Padding(padding: EdgeInsets.only(top: 16.0)),
                 Container(
                   padding: EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
@@ -143,6 +168,30 @@ class _ProfileState extends State<Profile> {
                     child: Center(
                       child: Text(
                         'Edit Profile',
+                        style: GoogleFonts.rubik(
+                            fontSize: 16.0, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(padding: EdgeInsets.only(top: 16.0)),
+                Container(
+                  padding: EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
+                  height: 40,
+                  width: MediaQuery.of(context).size.width,
+                  child: RaisedButton(
+                    color: Colors.grey[900],
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SavedPosts(
+                                    uid: widget.uid,
+                                  )));
+                    },
+                    child: Center(
+                      child: Text(
+                        'Saved Posts',
                         style: GoogleFonts.rubik(
                             fontSize: 16.0, color: Colors.white),
                       ),

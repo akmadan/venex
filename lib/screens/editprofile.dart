@@ -1,11 +1,14 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../main.dart';
 
 class EditProfile extends StatefulWidget {
   final String uid;
@@ -21,6 +24,7 @@ class _EditProfileState extends State<EditProfile> {
   final _formkey = GlobalKey<FormState>();
   String username;
   String bio;
+  TextEditingController contactcontroller = TextEditingController();
 
   void trysubmit() {
     final isValid = _formkey.currentState.validate();
@@ -35,8 +39,12 @@ class _EditProfileState extends State<EditProfile> {
     await Firestore.instance
         .collection('users')
         .document(widget.uid)
-        .updateData({'username': username, 'bio': bio});
-        Fluttertoast.showToast(msg: 'Data Updated on Profile Page');
+        .updateData({
+      'username': username,
+      'bio': bio,
+      'contact': contactcontroller.text
+    });
+    Fluttertoast.showToast(msg: 'Data Updated on Profile Page');
   }
 
   //*********************************************** */
@@ -46,6 +54,7 @@ class _EditProfileState extends State<EditProfile> {
     setState(() {
       dp = picked;
     });
+    Fluttertoast.showToast(msg: 'Updating Profile Picture');
     final ref = FirebaseStorage().ref().child('dp').child(widget.uid + '.jpg');
     await ref.putFile(dp).onComplete;
     String url = await ref.getDownloadURL();
@@ -59,8 +68,11 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Color(0xff0F0F0F),
         appBar: AppBar(
-          title: Text('Edit Profile'),
+          backgroundColor: Color(0xff1C1A1A),
+          title: Text('Edit Profile',
+              style: GoogleFonts.rubik(fontWeight: FontWeight.bold)),
         ),
         body: SingleChildScrollView(
           child: Container(
@@ -118,6 +130,14 @@ class _EditProfileState extends State<EditProfile> {
                             labelText: 'Enter Bio',
                             border: OutlineInputBorder()),
                       ),
+                      Padding(padding: EdgeInsets.only(top: 15.0)),
+                      TextFormField(
+                        controller: contactcontroller,
+                        decoration: InputDecoration(
+                            labelText:
+                                'Enter Contact eg. Email, Instagram ID etc.',
+                            border: OutlineInputBorder()),
+                      ),
                     ],
                   ),
                 ),
@@ -131,6 +151,23 @@ class _EditProfileState extends State<EditProfile> {
                     },
                     child: Text(
                       'Update',
+                      style: GoogleFonts.rubik(color: Colors.white),
+                    ),
+                  ),
+                ),
+                Padding(padding: EdgeInsets.only(top: 15.0)),
+                Container(
+                  height: 50,
+                  width: double.infinity,
+                  child: RaisedButton(
+                    color: Colors.grey[900],
+                    onPressed: () {
+                      FirebaseAuth.instance.signOut();
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => MyApp()));
+                    },
+                    child: Text(
+                      'Logout',
                       style: GoogleFonts.rubik(color: Colors.white),
                     ),
                   ),
