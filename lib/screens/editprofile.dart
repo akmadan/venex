@@ -13,14 +13,20 @@ import '../main.dart';
 class EditProfile extends StatefulWidget {
   final String uid;
   final String dp;
+  final String username;
+  final String bio;
+  final String contact;
 
-  const EditProfile({Key key, this.uid, this.dp}) : super(key: key);
+  const EditProfile(
+      {Key key, this.uid, this.dp, this.username, this.bio, this.contact})
+      : super(key: key);
   @override
   _EditProfileState createState() => _EditProfileState();
 }
 
 class _EditProfileState extends State<EditProfile> {
   File dp;
+  bool dpfile = false;
   final _formkey = GlobalKey<FormState>();
   String username;
   String bio;
@@ -53,6 +59,7 @@ class _EditProfileState extends State<EditProfile> {
         source: ImageSource.gallery, imageQuality: 30);
     setState(() {
       dp = picked;
+      dpfile = true;
     });
     Fluttertoast.showToast(msg: 'Updating Profile Picture');
     final ref = FirebaseStorage().ref().child('dp').child(widget.uid + '.jpg');
@@ -84,9 +91,11 @@ class _EditProfileState extends State<EditProfile> {
                 CircleAvatar(
                   radius: 70,
                   backgroundColor: Colors.white,
-                  backgroundImage: widget.dp == ""
-                      ? AssetImage('assets/logo1.jpg')
-                      : NetworkImage(widget.dp),
+                  backgroundImage: dpfile
+                      ? FileImage(dp)
+                      : widget.dp == ""
+                          ? AssetImage('assets/logo1.jpg')
+                          : NetworkImage(widget.dp),
                 ),
                 Padding(padding: EdgeInsets.only(top: 15.0)),
                 InkWell(

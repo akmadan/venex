@@ -163,6 +163,9 @@ class _ProfileState extends State<Profile> {
                               builder: (context) => EditProfile(
                                     uid: widget.uid,
                                     dp: usersnapshot.data['dp'],
+                                    username: usersnapshot.data['username'],
+                                    bio: usersnapshot.data['bio'],
+                                    contact: usersnapshot.data['contact'],
                                   )));
                     },
                     child: Center(

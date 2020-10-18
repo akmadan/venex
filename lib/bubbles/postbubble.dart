@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_downloader/image_downloader.dart';
 import 'package:yourconverse/screens/otherprofile.dart';
 
 class PostBubble extends StatefulWidget {
@@ -275,17 +277,33 @@ class _PostBubbleState extends State<PostBubble> {
                     ],
                   ),
                 ),
-                issaved
-                    ? IconButton(
-                        icon: Icon(Icons.bookmark),
-                        onPressed: () {
-                          unsavepost();
+                Row(
+                  children: [
+                    issaved
+                        ? IconButton(
+                            icon: Icon(Icons.bookmark),
+                            onPressed: () {
+                              unsavepost();
+                            })
+                        : IconButton(
+                            icon: Icon(Icons.bookmark_border),
+                            onPressed: () {
+                              savepost();
+                            }),
+                    IconButton(
+                        icon: Icon(Icons.save_alt),
+                        onPressed: () async {
+                          Fluttertoast.showToast(msg: 'Check Downloads Folder');
+                          await ImageDownloader.downloadImage(
+                            widget.url,
+                            destination:
+                                AndroidDestinationType.directoryDownloads
+                                  // ..inExternalFilesDir()
+                                  ..subDirectory("sneeker.jpg"),
+                          );
                         })
-                    : IconButton(
-                        icon: Icon(Icons.bookmark_border),
-                        onPressed: () {
-                          savepost();
-                        })
+                  ],
+                )
               ],
             ),
           ),
