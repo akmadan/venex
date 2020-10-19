@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -42,7 +43,24 @@ class _PostBubbleState extends State<PostBubble> {
     super.initState();
   }
 
-  //**************************************************** */
+  //*********************  AD    **************************** */
+  static final MobileAdTargetingInfo targetInfo = new MobileAdTargetingInfo(
+    testDevices: <String>[],
+    keywords: <String>['games', 'shoes', 'fashion', 'education', 'pubg'],
+    birthday: new DateTime.now(),
+    childDirected: true,
+  );
+
+  InterstitialAd myInterstitial = InterstitialAd(
+    adUnitId: "ca-app-pub-3937702122719326/7341147865",
+    targetingInfo: targetInfo,
+    listener: (MobileAdEvent event) {
+      print("InterstitialAd event is $event");
+    },
+  );
+  //*********************  AD    **************************** */
+
+
 
   checkliked() async {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
@@ -298,9 +316,15 @@ class _PostBubbleState extends State<PostBubble> {
                             widget.url,
                             destination:
                                 AndroidDestinationType.directoryDownloads
-                                  // ..inExternalFilesDir()
+                                  ..inExternalFilesDir()
                                   ..subDirectory("sneeker.jpg"),
                           );
+                          myInterstitial
+                            ..load()
+                            ..show(
+                              anchorType: AnchorType.bottom,
+                              anchorOffset: 0.0,
+                            );
                         })
                   ],
                 )
@@ -359,7 +383,7 @@ class _PostBubbleState extends State<PostBubble> {
                     ? Container()
                     : Container(
                         padding: EdgeInsets.only(left: 10.0),
-                        child: Text(
+                        child: SelectableText(
                           widget.description,
                           style: GoogleFonts.rubik(),
                         )),

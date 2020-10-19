@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -56,8 +57,8 @@ class _PatchWallState extends State<PatchWall> {
                       elevation: 5.0,
                       child: Container(
                         decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
                             color: Colors.transparent,
-                            
                             image: DecorationImage(
                                 image: NetworkImage(postdocs[index]['url']),
                                 fit: BoxFit.cover)),
@@ -70,7 +71,6 @@ class _PatchWallState extends State<PatchWall> {
                 mainAxisSpacing: 6.0,
                 crossAxisSpacing: 6.0,
               );
-             
             }
           },
         ));

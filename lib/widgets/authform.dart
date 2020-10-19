@@ -33,6 +33,7 @@ class _AuthFormState extends State<AuthForm> {
   void _submitAuthForm(
       String username, String email, String password, bool isLoginPage) async {
     AuthResult authresult;
+
     try {
       if (isLoginPage) {
         authresult = await _auth.signInWithEmailAndPassword(
@@ -53,7 +54,7 @@ class _AuthFormState extends State<AuthForm> {
           'dp': '',
           'bio': 'Describe Your Page in a Line',
           'posts': 0,
-          'contact':''
+          'contact': ''
         });
       }
     } on PlatformException catch (err) {
@@ -93,7 +94,7 @@ class _AuthFormState extends State<AuthForm> {
                     },
                     child: Text(
                       isLoginpage
-                          ? 'New to YourConverse ? Create account'
+                          ? 'New to YourSneaker ? Create account'
                           : 'Already have an account ? Login',
                       style: GoogleFonts.rubik(color: Colors.white),
                     ),
@@ -114,7 +115,7 @@ class _AuthFormState extends State<AuthForm> {
                         child: Text(
                           isLoginpage ? "Login" : 'Sign Up',
                           style: GoogleFonts.rubik(
-                              color: Colors.black, fontSize: 17.0),
+                              color: Colors.white, fontSize: 17.0),
                         ),
                       ),
                     ),
@@ -191,7 +192,7 @@ class _AuthFormState extends State<AuthForm> {
               Padding(padding: EdgeInsets.only(top: 10.0)),
               Center(
                 child: Container(
-                    child: Text('YourConverse',
+                    child: Text('YourSneaker',
                         style: GoogleFonts.rubik(
                             fontSize: 24.0, fontWeight: FontWeight.bold))),
               )

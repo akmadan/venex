@@ -1,5 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:yourconverse/screens/addpost.dart';
@@ -7,11 +5,11 @@ import 'package:yourconverse/screens/dashboard.dart';
 import 'package:yourconverse/screens/pathwall.dart';
 import 'package:yourconverse/screens/profile.dart';
 
-import 'main.dart';
+
+const String testDevice = '';
 
 class Home extends StatefulWidget {
   final String uid;
-
   const Home({Key key, this.uid}) : super(key: key);
   @override
   _HomeState createState() => _HomeState();
@@ -22,6 +20,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
   final PageController _pageController = PageController();
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

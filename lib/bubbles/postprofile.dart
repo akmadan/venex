@@ -135,7 +135,7 @@ class _ProfilePostState extends State<ProfilePost> {
                     ? Container()
                     : Container(
                         padding: EdgeInsets.only(left: 10.0),
-                        child: Text(
+                        child: SelectableText(
                           widget.description,
                           style: GoogleFonts.rubik(),
                         )),

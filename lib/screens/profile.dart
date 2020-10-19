@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,6 +17,45 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  //******************** AD ************************** */
+
+  static final MobileAdTargetingInfo targetInfo = new MobileAdTargetingInfo(
+    testDevices: <String>[],
+    keywords: <String>['games', 'shoes', 'fashion', 'education', 'pubg'],
+    birthday: new DateTime.now(),
+    childDirected: true,
+  );
+  BannerAd _bannerAd;
+
+  BannerAd createBannerAd() {
+    return new BannerAd(
+        adUnitId: "ca-app-pub-3937702122719326/1468700623",
+        size: AdSize.banner,
+        targetingInfo: targetInfo,
+        listener: (MobileAdEvent event) {
+          print("Banner event : $event");
+        });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseAdMob.instance
+        .initialize(appId: "ca-app-pub-3937702122719326~1324929071");
+    _bannerAd = createBannerAd()
+      ..load()
+      ..show(
+        anchorOffset: 55.0,
+      );
+  }
+
+  @override
+  void dispose() {
+    _bannerAd?.dispose();
+    super.dispose();
+  }
+
+  //********************** AD ************************ */
   var postcount = 0;
   @override
   Widget build(BuildContext context) {
@@ -42,11 +82,15 @@ class _ProfileState extends State<Profile> {
                         width: MediaQuery.of(context).size.width / 3,
                         child: Center(
                           child: CircleAvatar(
-                            backgroundColor: Colors.white,
-                            backgroundImage: usersnapshot.data['dp'] == ""
-                                ? AssetImage('assets/logo1.jpg')
-                                : NetworkImage(usersnapshot.data['dp']),
-                            radius: 60,
+                            backgroundColor: Theme.of(context).primaryColor,
+                            radius: 63,
+                            child: CircleAvatar(
+                              backgroundColor: Colors.grey[900],
+                              backgroundImage: usersnapshot.data['dp'] == ""
+                                  ? AssetImage('assets/logo1.jpg')
+                                  : NetworkImage(usersnapshot.data['dp']),
+                              radius: 60,
+                            ),
                           ),
                         ),
                       ),
@@ -102,10 +146,12 @@ class _ProfileState extends State<Profile> {
                       padding: EdgeInsets.only(left: 16),
                       width: MediaQuery.of(context).size.width,
                       child: Expanded(
-                        child: Text(
-                          usersnapshot.data['username'],
-                          style: GoogleFonts.rubik(
-                              fontSize: 20.0, fontWeight: FontWeight.bold),
+                        child: Container(
+                          child: Text(
+                            usersnapshot.data['username'],
+                            style: GoogleFonts.rubik(
+                                fontSize: 20.0, fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
                     ),
@@ -117,9 +163,11 @@ class _ProfileState extends State<Profile> {
                       padding: EdgeInsets.only(left: 16),
                       width: MediaQuery.of(context).size.width,
                       child: Expanded(
-                        child: Text(
-                          usersnapshot.data['bio'],
-                          style: GoogleFonts.rubik(fontSize: 18.0),
+                        child: Container(
+                          child: SelectableText(
+                            usersnapshot.data['bio'],
+                            style: GoogleFonts.rubik(fontSize: 18.0),
+                          ),
                         ),
                       ),
                     ),
@@ -131,20 +179,22 @@ class _ProfileState extends State<Profile> {
                       padding: EdgeInsets.only(left: 16),
                       width: MediaQuery.of(context).size.width,
                       child: Expanded(
-                        child: Row(
-                          children: [
-                            Text(
-                              'Contact - ',
-                              style: GoogleFonts.rubik(fontSize: 18.0),
-                            ),
-                            Text(
-                              usersnapshot.data['contact'],
-                              style: GoogleFonts.rubik(
-                                  fontSize: 18.0,
-                                  fontStyle: FontStyle.italic,
-                                  color: Theme.of(context).primaryColor),
-                            ),
-                          ],
+                        child: Container(
+                          child: Row(
+                            children: [
+                              Text(
+                                'Contact - ',
+                                style: GoogleFonts.rubik(fontSize: 18.0),
+                              ),
+                              SelectableText(
+                                usersnapshot.data['contact'],
+                                style: GoogleFonts.rubik(
+                                    fontSize: 18.0,
+                                    fontStyle: FontStyle.italic,
+                                    color: Theme.of(context).primaryColor),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -157,7 +207,7 @@ class _ProfileState extends State<Profile> {
                   width: MediaQuery.of(context).size.width,
                   child: RaisedButton(
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
                               builder: (context) => EditProfile(
@@ -166,7 +216,8 @@ class _ProfileState extends State<Profile> {
                                     username: usersnapshot.data['username'],
                                     bio: usersnapshot.data['bio'],
                                     contact: usersnapshot.data['contact'],
-                                  )));
+                                  )),
+                          (route) => false);
                     },
                     child: Center(
                       child: Text(
@@ -177,7 +228,7 @@ class _ProfileState extends State<Profile> {
                     ),
                   ),
                 ),
-                Padding(padding: EdgeInsets.only(top: 16.0)),
+                Padding(padding: EdgeInsets.only(top: 10.0)),
                 Container(
                   padding: EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
                   height: 40,
@@ -202,7 +253,7 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(20.0),
+                  padding: EdgeInsets.all(10.0),
                 ),
                 Container(
                     padding: EdgeInsets.all(5.0),
