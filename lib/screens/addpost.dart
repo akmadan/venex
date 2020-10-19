@@ -135,6 +135,7 @@ class _AddPostState extends State<AddPost> {
           child: Column(
             children: [
               Container(
+                height: 350,
                 padding: EdgeInsets.all(10.0),
                 width: MediaQuery.of(context).size.width,
                 child: image != null
@@ -193,7 +194,8 @@ class _AddPostState extends State<AddPost> {
                   ),
                 ),
               ),
-              //Padding(padding: EdgeInsets.only(bottom: 40.0)),
+
+              Padding(padding: EdgeInsets.only(bottom: 240.0)),
             ],
           ),
         ),

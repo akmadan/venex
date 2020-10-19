@@ -37,7 +37,7 @@ class _HomeState extends State<Home> {
                     MaterialPageRoute(builder: (context) => PatchWall()));
               }),
         ],
-        title: Text('Your Sneaker',
+        title: Text('Venex',
             style: GoogleFonts.rubik(fontWeight: FontWeight.bold)),
       ),
 

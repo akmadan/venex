@@ -94,7 +94,7 @@ class _AuthFormState extends State<AuthForm> {
                     },
                     child: Text(
                       isLoginpage
-                          ? 'New to YourSneaker ? Create account'
+                          ? 'New to Venex ? Create account'
                           : 'Already have an account ? Login',
                       style: GoogleFonts.rubik(color: Colors.white),
                     ),
@@ -192,7 +192,7 @@ class _AuthFormState extends State<AuthForm> {
               Padding(padding: EdgeInsets.only(top: 10.0)),
               Center(
                 child: Container(
-                    child: Text('YourSneaker',
+                    child: Text('Venex',
                         style: GoogleFonts.rubik(
                             fontSize: 24.0, fontWeight: FontWeight.bold))),
               )

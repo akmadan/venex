@@ -26,9 +26,7 @@ class ProfilePost extends StatefulWidget {
 }
 
 class _ProfilePostState extends State<ProfilePost> {
-
   //********************************************** */
-
 
   deletepost() async {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
@@ -57,8 +55,12 @@ class _ProfilePostState extends State<ProfilePost> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Color(0xff0F0F0F),
         appBar: AppBar(
-          title: Text('Your Post'),
+          backgroundColor: Color(0xff1C1A1A),
+          elevation: 8.0,
+          title: Text('Your Post',
+              style: GoogleFonts.rubik(fontWeight: FontWeight.bold)),
         ),
         body: Container(
           padding: EdgeInsets.all(10.0),
@@ -112,9 +114,9 @@ class _ProfilePostState extends State<ProfilePost> {
                 ),
               ),
               Container(
-                   padding: widget.description == ''
-                ? EdgeInsets.only(bottom: 0.0)
-                : EdgeInsets.only(bottom: 10.0),
+                padding: widget.description == ''
+                    ? EdgeInsets.only(bottom: 0.0)
+                    : EdgeInsets.only(bottom: 10.0),
                 decoration: BoxDecoration(
                   color: Colors.grey[900],
                   borderRadius: BorderRadius.only(
@@ -132,13 +134,13 @@ class _ProfilePostState extends State<ProfilePost> {
                       ],
                     ),
                     widget.description == ''
-                    ? Container()
-                    : Container(
-                        padding: EdgeInsets.only(left: 10.0),
-                        child: SelectableText(
-                          widget.description,
-                          style: GoogleFonts.rubik(),
-                        )),
+                        ? Container()
+                        : Container(
+                            padding: EdgeInsets.only(left: 10.0),
+                            child: SelectableText(
+                              widget.description,
+                              style: GoogleFonts.rubik(),
+                            )),
                   ],
                 ),
               ),

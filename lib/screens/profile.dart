@@ -142,16 +142,17 @@ class _ProfileState extends State<Profile> {
                 Padding(padding: EdgeInsets.only(top: 10.0)),
                 Row(
                   children: [
-                    Container(
+                    Padding(
                       padding: EdgeInsets.only(left: 16),
-                      width: MediaQuery.of(context).size.width,
+                    ),
+                    Container(
+                      //padding: EdgeInsets.only(left: 16),
+                      //width: MediaQuery.of(context).size.width,
                       child: Expanded(
-                        child: Container(
-                          child: Text(
-                            usersnapshot.data['username'],
-                            style: GoogleFonts.rubik(
-                                fontSize: 20.0, fontWeight: FontWeight.bold),
-                          ),
+                        child: Text(
+                          usersnapshot.data['username'],
+                          style: GoogleFonts.rubik(
+                              fontSize: 20.0, fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
@@ -159,15 +160,16 @@ class _ProfileState extends State<Profile> {
                 ),
                 Row(
                   children: [
-                    Container(
+                    Padding(
                       padding: EdgeInsets.only(left: 16),
-                      width: MediaQuery.of(context).size.width,
+                    ),
+                    Container(
+                      //padding: EdgeInsets.only(left: 16),
+                      //width: MediaQuery.of(context).size.width,
                       child: Expanded(
-                        child: Container(
-                          child: SelectableText(
-                            usersnapshot.data['bio'],
-                            style: GoogleFonts.rubik(fontSize: 18.0),
-                          ),
+                        child: SelectableText(
+                          usersnapshot.data['bio'],
+                          style: GoogleFonts.rubik(fontSize: 18.0),
                         ),
                       ),
                     ),
@@ -175,26 +177,27 @@ class _ProfileState extends State<Profile> {
                 ),
                 Row(
                   children: [
-                    Container(
+                    Padding(
                       padding: EdgeInsets.only(left: 16),
-                      width: MediaQuery.of(context).size.width,
+                    ),
+                    Container(
+                      //padding: EdgeInsets.only(left: 16),
+                      //width: MediaQuery.of(context).size.width,
                       child: Expanded(
-                        child: Container(
-                          child: Row(
-                            children: [
-                              Text(
-                                'Contact - ',
-                                style: GoogleFonts.rubik(fontSize: 18.0),
-                              ),
-                              SelectableText(
-                                usersnapshot.data['contact'],
-                                style: GoogleFonts.rubik(
-                                    fontSize: 18.0,
-                                    fontStyle: FontStyle.italic,
-                                    color: Theme.of(context).primaryColor),
-                              ),
-                            ],
-                          ),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Contact - ',
+                              style: GoogleFonts.rubik(fontSize: 18.0),
+                            ),
+                            SelectableText(
+                              usersnapshot.data['contact'],
+                              style: GoogleFonts.rubik(
+                                  fontSize: 18.0,
+                                  fontStyle: FontStyle.italic,
+                                  color: Theme.of(context).primaryColor),
+                            ),
+                          ],
                         ),
                       ),
                     ),
