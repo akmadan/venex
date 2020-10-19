@@ -39,7 +39,7 @@ class _HomeState extends State<Home> {
         ],
         title: Text('Venex',
             style: GoogleFonts.rubik(fontWeight: FontWeight.bold)),
-      ),
+      leading: Container(child: Image.asset('assets/logo-20.jpg'))),
 
       //********************************************** */
 

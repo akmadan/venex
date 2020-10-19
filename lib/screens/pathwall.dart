@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_admob/firebase_admob.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -33,7 +33,7 @@ class _PatchWallState extends State<PatchWall> {
             } else {
               final postdocs = allpostsnapshot.data.documents;
               return StaggeredGridView.countBuilder(
-                crossAxisCount: 4,
+                crossAxisCount: 6,
                 itemCount: postdocs.length,
                 itemBuilder: (context, index) => GestureDetector(
                   onTap: () {

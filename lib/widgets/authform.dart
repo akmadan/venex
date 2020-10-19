@@ -12,7 +12,7 @@ class AuthForm extends StatefulWidget {
 
 class _AuthFormState extends State<AuthForm> {
   final _formkey = GlobalKey<FormState>();
-  var isLoginpage = true;
+  var isLoginpage = false;
   var email = '';
   var username = '';
   var password = '';
@@ -189,13 +189,27 @@ class _AuthFormState extends State<AuthForm> {
                   ],
                 ),
               ),
-              Padding(padding: EdgeInsets.only(top: 10.0)),
+              Padding(padding: EdgeInsets.only(top: 25.0)),
               Center(
-                child: Container(
-                    child: Text('Venex',
-                        style: GoogleFonts.rubik(
-                            fontSize: 24.0, fontWeight: FontWeight.bold))),
-              )
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          image: DecorationImage(
+                              image: AssetImage('assets/logo-20.jpg'))),
+                      height: 50,
+                      width: 50,
+                    ),
+                    Padding(padding: EdgeInsets.only(left: 10.0)),
+                    Container(
+                        child: Text('Venex',
+                            style: GoogleFonts.rubik(
+                                fontSize: 24.0, fontWeight: FontWeight.bold))),
+                  ],
+                ),
+              ),
             ])));
   }
 }
